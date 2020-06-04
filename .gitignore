@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs
+/Wynnyo.PartitioningTable/obj
+/Wynnyo.PartitioningTable/bin/Debug/netcoreapp3.1
