@@ -9,7 +9,9 @@ namespace Wynnyo.PartitioningTable
     {
         public static string DbName = "MyData"; // 数据库的 name
         public static string TableName = "Log";  // 表的 name
+        public static string TempTableName = "Log_Temp";  // 临时表的 name
         public static string FilePath = "C:\\MyData"; // 分区表存储的文件夹
+        public static string XmlBakFilePath = FilePath + "\\XmlBak"; // 备份文件 xml 目录
         public static string FileName = "Log_Data_"; // 分区表存储的文件夹
         public static int FileSize = 5; // 文件初始大小(MB)
         public static int FileMaxSize = 100; // 文件初始大小(MB)

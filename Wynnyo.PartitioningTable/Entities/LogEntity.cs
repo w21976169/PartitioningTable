@@ -6,7 +6,6 @@ using SqlSugar;
 
 namespace Wynnyo.PartitioningTable.Entities
 {
-    [SugarTable("Log")]
     public class LogEntity
     {
         [SugarColumn(IsNullable = false, IsIdentity = true, IsPrimaryKey = true)]

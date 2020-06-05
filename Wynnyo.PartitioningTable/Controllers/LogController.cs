@@ -23,7 +23,7 @@ namespace Wynnyo.PartitioningTable.Controllers
 
         [HttpPost]
         [Route("insert")]
-        public void InitDbTable(LogEntity log)
+        public void Insert(LogEntity log)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Wynnyo.PartitioningTable.Controllers
 
         [HttpPost]
         [Route("rangeInsert")]
-        public void InitDbTable(int rows)
+        public void RangeInsert(int rows)
         {
             var ran = new Random();
 
@@ -48,9 +48,10 @@ namespace Wynnyo.PartitioningTable.Controllers
             {
                 for (int i = 0; i < rows; i++)
                 {
+                    // 随机生成 分区范围内的 时间
                     var time = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day,
                             ran.Next(0, 24), ran.Next(0, 60), ran.Next(0, 60))
-                        .AddDays(0 - ran.Next(0, Consts.ReservePartitions));
+                        .AddDays(0 - ran.Next(0, Consts.ReserveDay));
 
                     list.Add(new LogEntity()
                     {

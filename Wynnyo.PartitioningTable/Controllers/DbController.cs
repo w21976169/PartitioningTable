@@ -15,18 +15,19 @@ namespace Wynnyo.PartitioningTable.Controllers
     public class DbController : ControllerBase
     {
         private readonly DbService _dbService;
+
         public DbController(DbService dbService)
         {
             _dbService = dbService;
         }
 
         [HttpPost]
-        [Route("initTable")]
-        public void InitDbTable()
+        [Route("init")]
+        public void Init()
         {
             try
             {
-                _dbService.InitDbTable();
+                _dbService.Init();
             }
             catch (Exception e)
             {
@@ -66,20 +67,18 @@ namespace Wynnyo.PartitioningTable.Controllers
         }
 
         [HttpGet]
-        [Route("getPartitioningTablesInfo")]
-        public ICollection<DbInfoDto> GetPartitioningTablesInfo()
+        [Route("getGroupFileInfo")]
+        public ICollection<GroupFileDto> GetGroupFileInfo()
         {
             try
             {
-                var dt = _dbService.GetPartitioningTablesInfo();
+                var dt = _dbService.GetGroupFileInfo();
 
-                return dt.AsEnumerable().Select(e => new DbInfoDto
+                return dt.AsEnumerable().Select(e => new GroupFileDto()
                 {
-                    Partition = e["PARTITION"].ToString(),
-                    Rows = e["ROWS"].ToString(),
-                    MinVal = e["MinVal"].ToString(),
-                    MaxVal = e["MaxVal"].ToString(),
-
+                    Name = e["name"]?.ToString(),
+                    FileGroup = e["filegroup"]?.ToString(),
+                    PhysicalName = e["physical_name"]?.ToString()
                 }).ToList();
             }
             catch (Exception e)
@@ -90,17 +89,26 @@ namespace Wynnyo.PartitioningTable.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        [Route("getPartitionInfo")]
+        public ICollection<PartitionDto> GetPartitionInfo()
         {
-            var list = new List<string>();
-            var initTime = new DateTime(2020,6,1);
-            for (int i = 0; i < 32; i++)
+            try
             {
-                list.Add(initTime.AddDays(0 - i).ToString("yyyy-MM-dd"));
+                var dt = _dbService.GetPartitionsInfo();
+
+                return dt.AsEnumerable().Select(e => new PartitionDto
+                {
+                    Partition = e["PARTITION"]?.ToString(),
+                    Rows = e["ROWS"]?.ToString(),
+                    MinVal = e["MinVal"]?.ToString(),
+                    MaxVal = e["MaxVal"]?.ToString(),
+                }).ToList();
             }
-
-            return string.Join("','", list);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
-
     }
 }
